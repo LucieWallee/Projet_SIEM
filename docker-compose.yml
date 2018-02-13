@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+   db:
+     build: ./mysql
+     volumes:
+       - ./data:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+   php:
+    build: ./php
+    ports:
+      - '8000:80'
+    volumes:
+       - ./log:/var/log/apache2/
+       - ./html:/var/www/html
+    links:
+      - db
+   adminer:
+      image: adminer:latest
+      ports:
+        - 8080:8080
